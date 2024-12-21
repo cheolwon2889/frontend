@@ -1,0 +1,21 @@
+.mainBox{
+    width:700px;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.colBox{
+    height: 100%;
+    width:400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rowBox{
+    width:800px;
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    gap:10px;
+}
