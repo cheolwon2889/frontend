@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Port from './Port.js';
+import PortInfo from './PortInfo.js';
 import styles from './DockSimulation.module.css';
 
 function DockSimulation() {
     const [scale, setScale] = useState(1); // 확대 비율
     const [translate, setTranslate] = useState({ x: 0, y: 0 }); // div 이동 위치
     const [dragStart, setDragStart] = useState(null); // 드래그 시작 위치
+    const [portInfo, setPortInfo] = useState(null); // 현재 마우스가 올라간 포트 정보 상태
 
     const handleWheel = (event) => {
         event.preventDefault(); // 기본 스크롤 동작 방지
@@ -19,8 +21,8 @@ function DockSimulation() {
         const y = (offsetY - rect.height / 2 - translate.y) / scale;
 
         const newScale = event.deltaY < 0
-            ? Math.min(scale + zoomStep, maxScale) // 휠 위로: 확대
-            : Math.max(scale - zoomStep, minScale); // 휠 아래로: 축소
+            ? Math.min(scale + zoomStep, maxScale)
+            : Math.max(scale - zoomStep, minScale);
 
         if (newScale !== scale) {
             const newTranslate = {
@@ -47,7 +49,7 @@ function DockSimulation() {
     const handleMouseMove = (event) => {
         if (dragStart) {
             const currentTarget = event.currentTarget;
-            if (!currentTarget) return; // currentTarget이 null인 경우 리턴
+            if (!currentTarget) return;
     
             const dx = event.clientX - dragStart.x;
             const dy = event.clientY - dragStart.y;
@@ -75,83 +77,83 @@ function DockSimulation() {
         setDragStart(null);
     };
 
-    const clamp = (value, min, max) => Math.max(min, Math.min(value, max)); // 값 제한 함수
+    const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
+
+    const handlePortMouseEnter = (portId) => {
+        setPortInfo(portId);
+    };
 
     return (
-        <div
-            className={styles.dockContainer}
-            style={{
-                transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`, // 부모 div에 transform 적용
-                cursor: dragStart ? "grabbing" : "grab",
-                transition: dragStart ? "none" : "transform 0.2s ease-out", // 드래그 시에는 전환 없애기
-            }}
-            onWheel={handleWheel}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-        >
-            <img
-                src="/img/dock.png"
-                alt="Dock"
-                draggable="false"
+        <div>
+            <div className={styles.portInfo}>
+                {portInfo ? <PortInfo portId={portInfo} /> : <div>가장 가까운 일정 정보</div>}
+            </div>
+            <div
+                className={styles.dockContainer}
                 style={{
-                    width: "100%",
-                    height: "auto",
+                    transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`, // 부모 div에 transform 적용
+                    cursor: dragStart ? "grabbing" : "grab",
+                    transition: dragStart ? "none" : "transform 0.2s ease-out", // 드래그 시에는 전환 없애기
                 }}
-            />
-            <div className={`${styles.dock} ${styles.d1}`}>
-                <Port portId={1} />
+                onWheel={handleWheel}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+            >
+                <img
+                    src="/img/dock.png"
+                    alt="Dock"
+                    draggable="false"
+                    style={{
+                        width: "100%",
+                        height: "auto",
+                    }}
+                />
+                <div className={`${styles.dock} ${styles.d1}`}>
+                    <Port portId={1} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d2}`}>
+                    <Port portId={2} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={3} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={4} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d3}`}>
+                    <Port portId={5} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={6} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={7} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d4}`}>
+                    <Port portId={8} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d5}`}>
+                    <Port portId={9} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d6}`}>
+                    <Port portId={10} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={11} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={12} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={13} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={14} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d7}`}>
+                    <Port portId={15} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={16} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={17} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d8}`}>
+                    <Port portId={18} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={19} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d9}`}>
+                    <Port portId={20} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={21} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={22} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d10}`}>
+                    <Port portId={23} onMouseEnter={handlePortMouseEnter}/>
+                </div>
             </div>
-            <div className={`${styles.dock} ${styles.d2}`}>
-                <Port portId={2} />
-                <Port portId={3} />
-                <Port portId={4} />
-            </div>
-            <div className={`${styles.dock} ${styles.d3}`}>
-                <Port portId={5} />
-                <Port portId={6} />
-                <Port portId={7} />
-            </div>
-            <div className={`${styles.dock} ${styles.d4}`}>
-                <Port portId={8} />
-            </div>
-            <div className={`${styles.dock} ${styles.d5}`}>
-                <Port portId={9} />
-            </div>
-            <div className={`${styles.dock} ${styles.d6}`}>
-                <Port portId={10} />
-                <Port portId={11} />
-                <Port portId={12} />
-                <Port portId={13} />
-                <Port portId={14} />
-            </div>
-            <div className={`${styles.dock} ${styles.d7}`}>
-                <Port portId={15} />
-                <Port portId={16} />
-                <Port portId={17} />
-            </div>
-            <div className={`${styles.dock} ${styles.d8}`}>
-                <Port portId={18} />
-                <Port portId={19} />
-            </div>
-            <div className={`${styles.dock} ${styles.d9}`}>
-                <Port portId={20} />
-                <Port portId={21} />
-                <Port portId={22} />
-            </div>
-            <div className={`${styles.dock} ${styles.d10}`}>
-                <Port portId={23} />
-                <Port portId={24} />
-            </div>
-            <div className={`${styles.dock} ${styles.d11}`}>
-                <Port portId={25} />
-                <Port portId={26} />
-                <Port portId={27} />
-                <Port portId={28} />
-            </div>
-
-            
         </div>
     );
 }

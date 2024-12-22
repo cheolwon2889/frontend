@@ -1,6 +1,5 @@
 .dockContainer{
     user-select: none;
-    overflow: hidden;
     width: 100%;
     height: 100%;
     position: relative;
@@ -25,7 +24,7 @@
 .port:hover{
     box-shadow: 1px 1px 1px 1px rgb(0,0,0,0.5);
     background-color: var(--basic);
-    color: white;
+    color:white;
 }
 .dock{
     position:absolute;
@@ -100,12 +99,13 @@
 }
 .portInfo{
     position: absolute;
-    top:10px;
-    width:100px;
-    height: 50px;
+    bottom:120px;
+    left:40px;
+    width:300px;
+    height: 200px;
     border-radius: 5px;
     background-color: white;
     display:flex;
-    transform-origin: top left;
     z-index:100;
+    box-shadow: inset 2px 2px 2px rgb(0,0,0,0.5);
 }
