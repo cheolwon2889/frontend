@@ -1,6 +1,7 @@
 import HBChart from '../Data/HBChart.js';
 import '../../global.css';
 import BarChart from '../Data/BarChart.js';
+import DockSimulation from '../Data/DockSimulation.js';
 
 function Home() {
     const schedule = [
@@ -12,7 +13,9 @@ function Home() {
         <div class='body'>
             <div class='mainBox'>
                 <div class='boxTitle'>정박 현황</div>
-                <div class='boxContent'>선착장 현황 시뮬레이션 배치</div>
+                <div class='boxContent'>
+                    <DockSimulation />
+                </div>
             </div>
             <div class='colBox'>
                 <div class='boxTitle'>입출항 일정</div>
@@ -39,7 +42,6 @@ function Home() {
                         <div class='boxTitle'>정박 상태</div>
                         <div class='boxContent'>
                             <HBChart />
-
                         </div>
                     </div>
                     <div class='maxFlex box'>
