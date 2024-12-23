@@ -17,7 +17,7 @@ const ShipContainerSimulation = () => {
             0.1,
             1000
         );
-        camera.position.set(20, 20, 40); // 더 큰 맵에 맞게 카메라 위치 조정
+        camera.position.set(200, 200, 40); // 더 큰 맵에 맞게 카메라 위치 조정
 
         // 렌더러 생성
         const renderer = new THREE.WebGLRenderer();
@@ -29,26 +29,29 @@ const ShipContainerSimulation = () => {
         controls.enableDamping = true; // 감속 효과 활성화
 
         // 그리드 헬퍼 추가 (기준선)
-        const gridHelper = new THREE.GridHelper(600, 200); // 그리드 크기 2배 확대
+        const gridHelper = new THREE.GridHelper(1000, 200); // 그리드 크기 2배 확대
         scene.add(gridHelper);
 
         // 선박 단면 모양 정의
         const shipShape = new THREE.Shape();
-        shipShape.moveTo(-125, 0); // 상단 평평한 부분 시작
-        shipShape.lineTo(125, 0); // 상단 평평한 부분 끝
-        shipShape.quadraticCurveTo(70, -40, 0, -50); // 곡선 하단 중앙으로 이동
-        shipShape.quadraticCurveTo(-120, -40, -125, 0); // 곡선 다시 시작점으로
+        shipShape.moveTo(-200, 0); // 상단 평평한 부분 시작
+        shipShape.lineTo(200, 0); // 상단 평평한 부분 끝
+        shipShape.quadraticCurveTo(100, -60, 0, -80); // 곡선 하단 중앙으로 이동
+        shipShape.quadraticCurveTo(-200, -60, -200, 0); // 곡선 다시 시작점으로
 
         // 선박 3D 형태 생성
         const extrudeSettings = { depth: 40, bevelEnabled: false };
         const shipGeometry = new THREE.ExtrudeGeometry(shipShape, extrudeSettings);
+
+        shipGeometry.scale(1, 1, 3); // x, y 방향으로 확대, 깊이는 유지
         const shipMaterial = new THREE.MeshStandardMaterial({ color: 0x8b4513 }); // 갈색 선박 재질
         const ship = new THREE.Mesh(shipGeometry, shipMaterial);
         ship.rotation.x = -Math.PI / 360; // 수평으로 회전
-        ship.position.y = 30; // 바닥에서 약간 띄운 위치
+        ship.position.set(0,0,-100);
+        ship.position.y = 50; // 바닥에서 약간 띄운 위치
         scene.add(ship);
 
-        // 뱃머리 추가
+        // 뱃머리 추가 사라짐 ㅋㅋ
         const bowShape = new THREE.Shape();
         bowShape.moveTo(0, 0); // 뱃머리 중앙
         bowShape.lineTo(0, 10); // 오른쪽 끝
@@ -59,15 +62,15 @@ const ShipContainerSimulation = () => {
         const bowMaterial = new THREE.MeshStandardMaterial({ color: 0x8b4513 }); // 선박과 동일한 색상
         const bow = new THREE.Mesh(bowGeometry, bowMaterial);
         bow.rotation.x = Math.PI / 2; // 뱃머리 회전
-        bow.position.set(-70, 12, 15); // 뱃머리 위치 설정
+        bow.position.set(-150, 12, -40); // 뱃머리 위치 설정
         scene.add(bow);
 
         // 배 옆의 평평한 바닥 추가
-        const floorGeometry = new THREE.PlaneGeometry(600, 250);
+        const floorGeometry = new THREE.PlaneGeometry(1000, 500);
         const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x999999, side: THREE.DoubleSide }); // 회색 바닥 재질
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.rotation.x = -Math.PI / 2; // 평평하게 회전
-        floor.position.set(0, 2, 180); // 바닥 위치를 옆으로 이동
+        floor.position.set(0, 2, 280); // 바닥 위치를 옆으로 이동
         scene.add(floor);
 
         // 파란색 크레인 추가
@@ -181,14 +184,14 @@ const ShipContainerSimulation = () => {
         scene.add(fallingContainer);
 
         const containers = []; // 쌓인 컨테이너 관리
-        const maxContainers = 10; // 최대 컨테이너 수 제한
-        const dropSpeed = 0.5;
+        const maxContainers = 20; // 최대 컨테이너 수 제한
+        const dropSpeed = 0.1;
 
         const dropContainer = () => {
             if (fallingContainer.position.y > 40 + containers.length * 12) {
                 fallingContainer.position.y -= dropSpeed;
                 requestAnimationFrame(dropContainer);
-            } else if (containers.length < maxContainers) {
+            } else if (containers.length < maxContainers) { 
                 fallingContainer.position.y = 40 + containers.length * 12; // 새로운 층에 위치 고정
                 const stackedContainer = fallingContainer.clone();
                 containers.push(stackedContainer);
