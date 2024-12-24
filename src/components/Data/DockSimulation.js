@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Port from './Port.js';
 import PortInfo from './PortInfo.js';
 import styles from './DockSimulation.module.css';
@@ -8,6 +9,19 @@ function DockSimulation() {
     const [translate, setTranslate] = useState({ x: 0, y: 0 }); // div 이동 위치
     const [dragStart, setDragStart] = useState(null); // 드래그 시작 위치
     const [portInfo, setPortInfo] = useState(null); // 현재 마우스가 올라간 포트 정보 상태
+
+    const [data, setData] = useState([]); // data와 setData를 useState로 초기화합니다.
+  
+    useEffect(() => {
+      axios.get('http://localhost:8080/port') // Spring Boot API 호출
+        .then(response => {
+          setData(response.data); // 문자열로 반환된 데이터를 상태에 저장
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }, []);
 
     const handleWheel = (event) => {
         event.preventDefault(); // 기본 스크롤 동작 방지
@@ -152,6 +166,13 @@ function DockSimulation() {
                 </div>
                 <div className={`${styles.dock} ${styles.d10}`}>
                     <Port portId={23} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={24} onMouseEnter={handlePortMouseEnter}/>
+                </div>
+                <div className={`${styles.dock} ${styles.d11}`}>
+                    <Port portId={25} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={26} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={27} onMouseEnter={handlePortMouseEnter}/>
+                    <Port portId={28} onMouseEnter={handlePortMouseEnter}/>
                 </div>
             </div>
         </div>

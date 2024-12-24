@@ -2,6 +2,8 @@ import HBChart from '../Data/HBChart.js';
 import '../../global.css';
 import BarChart from '../Data/BarChart.js';
 import DockSimulation from '../Data/DockSimulation.js';
+import Weather from '../Data/Weather.js';
+import Schedule from '../Data/Schedule.js';
 
 function Home() {
     const schedule = [
@@ -20,6 +22,8 @@ function Home() {
             <div class='colBox'>
                 <div class='boxTitle'>입출항 일정</div>
                 <div class='boxContent'>
+                    <Schedule />
+
                 {schedule.map((item) => (
                     item.isArrived ? (
                         <div key={item.id} className='infoCell departure'>
@@ -53,7 +57,10 @@ function Home() {
                 </div>
                 <div class='maxFlex box col'>
                     <div class='boxTitle'>기상 정보</div>
-                    <div class='boxContent'>기상정보 배치</div>
+                    <div class='boxContent'>
+                        <Weather />
+
+                    </div>
                 </div>
             </div>
         </div>
